@@ -102,9 +102,11 @@ export function Header() {
     const cta = ctaRef.current;
 
     if (open) {
+      gsap.to(logoRef.current, { color: "#ffffff", duration: 0.3, ease: "power2.out" });
       gsap.to(items, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.07, delay: 0.25 });
       gsap.to(cta, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out", delay: 0.55 });
     } else {
+      gsap.to(logoRef.current, { color: isDarkRef.current ? "#ffffff" : "#000000", duration: 0.3, ease: "power2.out" });
       gsap.to(items, { opacity: 0, y: 20, duration: 0.2, stagger: 0.04 });
       gsap.to(cta, { opacity: 0, y: 10, duration: 0.15 });
     }
