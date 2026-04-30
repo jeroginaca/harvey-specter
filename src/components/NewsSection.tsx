@@ -42,19 +42,23 @@ export function NewsSection({ posts }: { posts: NewsPost[] }) {
                   <div className="w-px self-stretch bg-[#cccccc] mx-[1.96875rem] shrink-0" />
                 )}
                 <div
-                  className={`shrink-0 flex flex-col gap-4${i % 2 === 1 ? " pt-[7.5rem]" : ""}`}
+                  className={`group shrink-0 flex flex-col gap-4 cursor-pointer${i % 2 === 1 ? " pt-[7.5rem]" : ""}`}
                   style={{ width: "24rem" }}
                 >
-                  <div className="relative w-full" style={{ aspectRatio: "353/469" }}>
+                  <div className="relative w-full overflow-hidden" style={{ aspectRatio: "353/469" }}>
                     {post.imageUrl && (
-                      <Image src={post.imageUrl} alt="" fill sizes="24rem" className="object-cover" />
+                      <Image src={post.imageUrl} alt="" fill sizes="24rem" className="object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
                     )}
+                    <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/20" />
                   </div>
-                  <p className="text-[0.875rem] font-normal tracking-[-0.04em] text-[#1f1f1f] leading-snug">
+                  <p className="text-[0.875rem] font-normal tracking-[-0.04em] text-[#1f1f1f] leading-snug transition-opacity duration-300 group-hover:opacity-60">
                     {post.excerpt}
                   </p>
-                  <a href={post.link || "#"} className="flex items-center gap-2.5 text-[0.875rem] font-medium text-black">
-                    Read more <ArrowIcon />
+                  <a href={post.link || "#"} className="flex items-center gap-2.5 text-[0.875rem] font-medium text-black w-fit">
+                    Read more
+                    <span className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5 inline-flex">
+                      <ArrowIcon />
+                    </span>
                   </a>
                 </div>
               </React.Fragment>
