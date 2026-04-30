@@ -49,44 +49,71 @@ function NavLink({ item }: { item: string }) {
 
 function CtaButton({ dark, onClick, children }: { dark?: boolean; onClick?: () => void; children: React.ReactNode }) {
   const ref = useRef<HTMLButtonElement>(null);
+  const shineRef = useRef<HTMLSpanElement>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    const btn = ref.current;
+    if (!btn) return;
+    const rect = btn.getBoundingClientRect();
+    const x = (e.clientX - rect.left - rect.width / 2) * 0.28;
+    const y = (e.clientY - rect.top - rect.height / 2) * 0.28;
+    gsap.to(btn, { x, y, duration: 0.35, ease: "power2.out" });
+  };
 
   const onEnter = () => {
-    gsap.to(ref.current, {
-      scale: 1.05,
-      duration: 0.25,
-      ease: "back.out(2)",
+    // Shine sweep
+    gsap.fromTo(
+      shineRef.current,
+      { x: "-140%" },
+      { x: "140%", duration: 0.55, ease: "power2.inOut" }
+    );
+    // Letter spacing expand
+    gsap.to(textRef.current, {
+      letterSpacing: "0.04em",
+      duration: 0.3,
+      ease: "power2.out",
     });
   };
 
   const onLeave = () => {
-    gsap.to(ref.current, {
-      scale: 1,
-      duration: 0.2,
-      ease: "power2.inOut",
+    // Magnetic spring back
+    gsap.to(ref.current, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.45)" });
+    // Letter spacing reset
+    gsap.to(textRef.current, {
+      letterSpacing: "-0.035rem",
+      duration: 0.25,
+      ease: "power2.in",
     });
   };
 
   const onClick_ = () => {
     gsap.timeline()
-      .to(ref.current, { scale: 0.93, duration: 0.1, ease: "power2.in" })
-      .to(ref.current, { scale: 1.05, duration: 0.15, ease: "back.out(2)" })
-      .to(ref.current, { scale: 1, duration: 0.15, ease: "power2.out" });
+      .to(ref.current, { scale: 0.9, duration: 0.1, ease: "power3.in" })
+      .to(ref.current, { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.4)" });
     onClick?.();
   };
 
   return (
     <button
       ref={ref}
-      className={`w-fit flex items-center gap-2.5 px-4 py-3 text-sm font-medium tracking-[-0.035rem] rounded-full ${
-        dark
-          ? "bg-black text-white"
-          : "bg-white text-black"
+      className={`relative w-fit overflow-hidden flex items-center gap-2.5 px-4 py-3 text-sm font-medium rounded-full ${
+        dark ? "bg-black text-white" : "bg-white text-black"
       }`}
+      onMouseMove={onMouseMove}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
       onClick={onClick_}
     >
-      {children}
+      {/* Shine overlay */}
+      <span
+        ref={shineRef}
+        className="absolute inset-0 -skew-x-[20deg] bg-white/20 pointer-events-none"
+        style={{ transform: "translateX(-140%)" }}
+      />
+      <span ref={textRef} className="relative tracking-[-0.035rem]">
+        {children}
+      </span>
     </button>
   );
 }
