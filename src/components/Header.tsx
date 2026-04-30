@@ -62,6 +62,13 @@ function CtaButton({ dark, onClick, children }: { dark?: boolean; onClick?: () =
   };
 
   const onEnter = () => {
+    // Background flip
+    gsap.to(ref.current, {
+      backgroundColor: dark ? "#ffffff" : "#000000",
+      color: dark ? "#000000" : "#ffffff",
+      duration: 0.4,
+      ease: "power2.inOut",
+    });
     // Shine sweep
     gsap.fromTo(
       shineRef.current,
@@ -77,6 +84,13 @@ function CtaButton({ dark, onClick, children }: { dark?: boolean; onClick?: () =
   };
 
   const onLeave = () => {
+    // Background reset
+    gsap.to(ref.current, {
+      backgroundColor: dark ? "#000000" : "#ffffff",
+      color: dark ? "#ffffff" : "#000000",
+      duration: 0.35,
+      ease: "power2.inOut",
+    });
     // Magnetic spring back
     gsap.to(ref.current, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.45)" });
     // Letter spacing reset
