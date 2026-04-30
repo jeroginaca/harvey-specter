@@ -112,16 +112,7 @@ export function Header() {
 
   return (
     <>
-      <div
-        className="fixed top-0 inset-x-0 z-[49] pointer-events-none h-32 backdrop-blur-[20px] transition-opacity duration-500"
-        style={{
-          opacity: scrolled ? 1 : 0,
-          maskImage: "linear-gradient(to bottom, black 30%, transparent)",
-          WebkitMaskImage: "linear-gradient(to bottom, black 30%, transparent)",
-        }}
-      />
-
-      <header className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-4 md:px-8 py-6">
+<header className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-4 md:px-8 py-6">
 
         <span ref={logoRef} className="relative text-base font-semibold tracking-[-0.04em] text-black">
           H.Studio
