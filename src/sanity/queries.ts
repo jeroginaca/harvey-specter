@@ -11,6 +11,10 @@ export type PortfolioProject = {
   _id: string;
   title: string;
   tags: string[];
+  description: string;
+  client: string;
+  year: number;
+  link: string;
   tallDesktop: boolean;
   imageUrl: string;
 };
@@ -60,6 +64,10 @@ export async function getPortfolioProjects(): Promise<PortfolioProject[]> {
       _id,
       title,
       tags,
+      description,
+      client,
+      year,
+      link,
       tallDesktop,
       "imageUrl": image.asset->url,
     }

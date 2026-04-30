@@ -25,8 +25,18 @@ function ArrowNE() {
 
 function ProjectCard({ project }: { project: PortfolioProject }) {
   const desktopH = project.tallDesktop ? "md:h-[46.5rem]" : "md:h-[43.6875rem]";
+  const Wrapper = project.link
+    ? ({ children }: { children: React.ReactNode }) => (
+        <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex flex-col gap-[0.625rem] group">
+          {children}
+        </a>
+      )
+    : ({ children }: { children: React.ReactNode }) => (
+        <div className="flex flex-col gap-[0.625rem]">{children}</div>
+      );
+
   return (
-    <div className="flex flex-col gap-[0.625rem]">
+    <Wrapper>
       <div className={`relative h-[24.375rem] ${desktopH} overflow-hidden`}>
         {project.imageUrl && (
           <Image
@@ -34,7 +44,7 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
             alt={project.title}
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-cover object-center"
+            className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
           />
         )}
         <div className="absolute bottom-4 left-4 flex gap-3">
@@ -57,7 +67,7 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
           <ArrowNE />
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 }
 

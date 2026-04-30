@@ -13,6 +13,15 @@ export const portfolioProject = defineType({
       of: [{ type: "string" }],
     }),
     defineField({
+      name: "description",
+      title: "Description",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({ name: "client", title: "Client", type: "string" }),
+    defineField({ name: "year", title: "Year", type: "number" }),
+    defineField({ name: "link", title: "Project Link", type: "url" }),
+    defineField({
       name: "image",
       title: "Image",
       type: "image",
@@ -22,7 +31,7 @@ export const portfolioProject = defineType({
       name: "tallDesktop",
       title: "Tall on Desktop",
       type: "boolean",
-      description: "First and fourth cards are tall (744px), others are shorter (699px)",
+      description: "Cards 1 and 4 are tall (744px), cards 2 and 3 are shorter (699px)",
     }),
     defineField({ name: "order", title: "Order", type: "number" }),
   ],
@@ -33,4 +42,7 @@ export const portfolioProject = defineType({
       by: [{ field: "order", direction: "asc" }],
     },
   ],
+  preview: {
+    select: { title: "title", subtitle: "client", media: "image" },
+  },
 });
