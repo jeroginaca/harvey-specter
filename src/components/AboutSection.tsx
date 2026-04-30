@@ -53,8 +53,8 @@ export function AboutSection() {
           ease: "none",
           scrollTrigger: {
             trigger: imageWrapRef.current,
-            start: "top 75%",
-            end: "bottom 40%",
+            start: "top 100%",
+            end: "bottom 60%",
             scrub: 1,
           },
         }
