@@ -52,7 +52,7 @@ export function HeroSection() {
     <section
       ref={sectionRef}
       className={[
-        "relative isolate w-full flex flex-col overflow-hidden",
+        "relative isolate w-full flex flex-col overflow-hidden bg-white",
         "min-h-[100svh] md:h-[52.9375rem]",
         "px-4 md:px-8",
         "pb-6 md:pb-0",

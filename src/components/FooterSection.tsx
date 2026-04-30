@@ -2,7 +2,7 @@ import { LetsTalkButton } from "./LetsTalkButton";
 
 export function FooterSection() {
   return (
-    <footer data-header-theme="dark" className="w-full bg-black overflow-hidden">
+    <footer data-header-theme="dark" className="sticky bottom-0 z-0 w-full bg-black overflow-hidden">
       <div className="px-4 md:px-8 pt-12">
 
         {/* ─── MOBILE: CTA + social stacked ─────────────────────────────── */}

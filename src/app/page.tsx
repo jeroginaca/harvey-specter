@@ -27,17 +27,19 @@ export default async function Home() {
 
   return (
     <>
-      <Header />
-      <main>
-        <HeroSection />
-        <ExperienceSection />
-        <AboutSection />
-        <ServicesBackground />
-        <ServicesSection services={services} />
-        <PortfolioSection projects={projects} />
-        <TestimonialsSection testimonials={testimonials} />
-        <NewsSection posts={posts} />
-      </main>
+      <div className="relative z-10">
+        <Header />
+        <main>
+          <HeroSection />
+          <ExperienceSection />
+          <AboutSection />
+          <ServicesBackground />
+          <ServicesSection services={services} />
+          <PortfolioSection projects={projects} />
+          <TestimonialsSection testimonials={testimonials} />
+          <NewsSection posts={posts} />
+        </main>
+      </div>
       <FooterSection />
     </>
   );
