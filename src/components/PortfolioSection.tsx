@@ -28,12 +28,12 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
   const desktopH = project.tallDesktop ? "md:h-[46.5rem]" : "md:h-[43.6875rem]";
   const Wrapper = project.link
     ? ({ children }: { children: React.ReactNode }) => (
-        <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex flex-col gap-[0.625rem] group">
+        <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex flex-col gap-[0.625rem] group cursor-pointer">
           {children}
         </a>
       )
     : ({ children }: { children: React.ReactNode }) => (
-        <div className="flex flex-col gap-[0.625rem]">{children}</div>
+        <div className="flex flex-col gap-[0.625rem] group">{children}</div>
       );
 
   return (
@@ -45,9 +45,10 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
             alt={project.title}
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
           />
         )}
+        <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/30" />
         <div className="absolute bottom-4 left-4 flex gap-3">
           {project.tags?.map((tag) => (
             <div
@@ -61,10 +62,10 @@ function ProjectCard({ project }: { project: PortfolioProject }) {
       </div>
 
       <div className="flex items-center justify-between">
-        <h3 className="text-2xl md:text-[2.25rem] font-black uppercase tracking-[-0.04em] leading-none text-black">
+        <h3 className="text-2xl md:text-[2.25rem] font-black uppercase tracking-[-0.04em] leading-none text-black transition-transform duration-500 ease-out group-hover:translate-x-2">
           {project.title}
         </h3>
-        <div className="w-8 h-[1.9375rem] flex items-center justify-center shrink-0">
+        <div className="w-8 h-[1.9375rem] flex items-center justify-center shrink-0 transition-transform duration-300 ease-out group-hover:-translate-y-1 group-hover:translate-x-1">
           <ArrowNE />
         </div>
       </div>
