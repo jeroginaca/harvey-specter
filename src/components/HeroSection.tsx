@@ -1,25 +1,66 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LetsTalkButton } from "./LetsTalkButton";
 
 export function HeroSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const greetingRef = useRef<HTMLSpanElement>(null);
+  const harveyRef = useRef<HTMLSpanElement>(null);
+  const specterRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1.5,
+        },
+      });
+
+      // Harvey + greeting slide out left
+      tl.to([greetingRef.current, harveyRef.current], {
+        x: "-35vw",
+        ease: "none",
+      }, 0);
+
+      // Specter slides out right
+      tl.to(specterRef.current, {
+        x: "35vw",
+        ease: "none",
+      }, 0);
+
+      // Background grows
+      tl.to(bgRef.current, {
+        scale: 1.25,
+        ease: "none",
+      }, 0);
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       className={[
-        "relative isolate w-full flex flex-col",
-        // Height: min full screen on mobile, fixed Figma height on desktop
+        "relative isolate w-full flex flex-col overflow-hidden",
         "min-h-[100svh] md:h-[52.9375rem]",
-        // Padding: 16px mobile (Figma), 32px desktop (Figma)
         "px-4 md:px-8",
-        // Bottom padding: 24px mobile (Figma), none desktop
         "pb-6 md:pb-0",
-        // Spacing: SPACE_BETWEEN on mobile pushes header top / intro bottom;
-        // desktop uses fixed 240px gap between header and intro
         "justify-between md:justify-start md:gap-[15rem]",
       ].join(" ")}
     >
-      {/* Background photo — overflow-hidden lives here (not on section) so the
-          absolute overlay in Header can extend full-screen within the same stacking context */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
+      {/* Background photo */}
+      <div ref={bgRef} className="absolute inset-0 -z-10">
         <Image
           src="/hero-bg.jpg"
           alt=""
@@ -30,8 +71,7 @@ export function HeroSection() {
         />
       </div>
 
-      {/* Progressive background blur overlay
-          Figma: BACKGROUND_BLUR radius=20, PROGRESSIVE top→bottom, bottom 349px */}
+      {/* Progressive background blur overlay */}
       <div
         className="absolute bottom-0 inset-x-0 h-[21.8125rem] pointer-events-none bg-white/[0.01] backdrop-blur-[1.25rem]"
         style={{
@@ -40,18 +80,18 @@ export function HeroSection() {
         }}
       />
 
-      {/* Spacer matching fixed header height so the intro stays in the same vertical position */}
+      {/* Spacer matching fixed header height */}
       <div className="h-[4.5rem] shrink-0" aria-hidden="true" />
 
-      {/* Introduction
-          Mobile: SPACE_BETWEEN (name at top, description at bottom of this container)
-          Desktop: centered */}
       <div className="flex flex-col gap-10 md:gap-0 md:justify-center items-center z-10">
         {/* Name block */}
         <div className="w-full flex flex-col">
-          {/* Greeting — centered on mobile, left on desktop */}
+          {/* Greeting — moves with Harvey */}
           <div className="flex items-center justify-center md:justify-start">
-            <span className="font-mono text-sm font-normal text-white mix-blend-overlay">
+            <span
+              ref={greetingRef}
+              className="inline-block font-mono text-sm font-normal text-white mix-blend-overlay"
+            >
               [ Hello i&apos;m ]
             </span>
           </div>
@@ -65,13 +105,13 @@ export function HeroSection() {
               "text-center md:text-left mix-blend-overlay",
             ].join(" ")}
           >
-            Harvey{"   "}Specter
+            <span ref={harveyRef} className="inline-block">Harvey</span>
+            {"   "}
+            <span ref={specterRef} className="inline-block">Specter</span>
           </h1>
         </div>
 
-        {/* Description + CTA
-            Mobile: flows naturally below name block with gap
-            Desktop: absolutely anchored bottom-right */}
+        {/* Description + CTA */}
         <div className="w-[18.375rem] flex flex-col gap-[1.0625rem] md:absolute md:bottom-[9.5rem] md:right-8">
           <p className="text-sm font-bold uppercase italic tracking-[-0.035rem] text-[#1f1f1f] leading-[1.1]">
             H.Studio is a{" "}
