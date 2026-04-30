@@ -128,7 +128,7 @@ export function Header() {
       {/* Mobile overlay — GSAP controlled */}
       <div
         ref={overlayRef}
-        className={`md:hidden fixed top-0 left-0 w-full h-[100svh] z-40 bg-black flex flex-col px-4 pt-[4.5rem] pb-16 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`md:hidden fixed top-0 left-0 w-full h-[100svh] z-40 bg-black flex flex-col px-4 pt-[4.5rem] pb-28 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             open ? "translate-y-0 pointer-events-auto" : "-translate-y-full pointer-events-none"
           }`}
       >
