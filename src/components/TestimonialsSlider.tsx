@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import type { Testimonial } from "@/sanity/queries";
 
@@ -39,9 +39,25 @@ export function TestimonialsSlider({ testimonials }: { testimonials: Testimonial
   const [current, setCurrent] = useState(0);
   const startX = useRef(0);
   const startY = useRef(0);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const total = testimonials.length;
 
-  const goTo = (i: number) =>
-    setCurrent(Math.max(0, Math.min(testimonials.length - 1, i)));
+  const resetTimer = useCallback(() => {
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      setCurrent((c) => (c + 1) % total);
+    }, 3000);
+  }, [total]);
+
+  useEffect(() => {
+    resetTimer();
+    return () => { if (timer.current) clearTimeout(timer.current); };
+  }, [current, resetTimer]);
+
+  const goTo = (i: number) => {
+    setCurrent(Math.max(0, Math.min(total - 1, i)));
+    resetTimer();
+  };
 
   const onTouchStart = (e: React.TouchEvent) => {
     startX.current = e.touches[0].clientX;
@@ -52,7 +68,8 @@ export function TestimonialsSlider({ testimonials }: { testimonials: Testimonial
     const dx = e.changedTouches[0].clientX - startX.current;
     const dy = e.changedTouches[0].clientY - startY.current;
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
-      goTo(current + (dx < 0 ? 1 : -1));
+      const next = dx < 0 ? (current + 1) % total : (current - 1 + total) % total;
+      goTo(next);
     }
   };
 
