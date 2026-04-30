@@ -4,6 +4,7 @@
 
 import Image from "next/image";
 import type { Testimonial } from "@/sanity/queries";
+import { TestimonialsSlider } from "./TestimonialsSlider";
 
 // Layout positions are design data — not edited via CMS
 const LAYOUT_POSITIONS = [
@@ -85,27 +86,11 @@ export function TestimonialsSection({ testimonials }: { testimonials: Testimonia
         })}
       </div>
 
-      <div className="md:hidden py-16 px-4 flex flex-col gap-8">
-        <h2 className="text-[2rem] font-medium leading-[0.8] tracking-[-0.07em] text-black">
+      <div className="md:hidden py-16 flex flex-col gap-6">
+        <h2 className="px-4 text-[2rem] font-medium leading-[0.8] tracking-[-0.07em] text-black">
           Testimonials
         </h2>
-
-        <div className="overflow-x-auto -mx-4 px-4" style={{ overflowY: "hidden" }}>
-          <div className="inline-flex py-8" style={{ gap: "30px" }}>
-            {testimonials.map((t, i) => {
-              const pos = LAYOUT_POSITIONS[i % LAYOUT_POSITIONS.length];
-              return (
-                <TestimonialCard
-                  key={t._id}
-                  t={t}
-                  pos={pos}
-                  className="shrink-0"
-                  style={{ width: "260px", transform: `rotate(${pos.mobileRotate}deg)` }}
-                />
-              );
-            })}
-          </div>
-        </div>
+        <TestimonialsSlider testimonials={testimonials} />
       </div>
 
     </section>
