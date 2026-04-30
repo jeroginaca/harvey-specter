@@ -19,12 +19,12 @@ export function Header() {
         </span>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-14 mix-blend-difference">
+        <nav className="hidden md:flex items-center gap-14">
           {NAV_ITEMS.map((item) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
-              className="text-base font-semibold tracking-[-0.04em] text-white hover:opacity-60 transition-opacity duration-200"
+              className="text-base font-semibold tracking-[-0.04em] text-black mix-blend-difference hover:opacity-60 transition-opacity duration-200"
             >
               {item}
             </a>
