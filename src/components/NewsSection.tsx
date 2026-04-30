@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import type { NewsPost } from "@/sanity/queries";
+import { NewsSlider } from "./NewsSlider";
 
 function ArrowIcon() {
   return (
@@ -73,30 +74,7 @@ export function NewsSection({ posts }: { posts: NewsPost[] }) {
           Keep up with my latest news &amp; achievements
         </h2>
 
-        <div className="overflow-x-auto pl-4">
-          <div className="inline-flex" style={{ gap: "1rem" }}>
-            {posts.map((post) => (
-              <div key={post._id} className="shrink-0 flex flex-col gap-4" style={{ width: "18.75rem" }}>
-                <div className="relative w-full" style={{ aspectRatio: "300/398" }}>
-                  {post.imageUrl && (
-                    <Image src={post.imageUrl} alt="" fill sizes="18.75rem" className="object-cover" />
-                  )}
-                </div>
-                <p className="text-[0.875rem] font-normal tracking-[-0.04em] text-[#1f1f1f] leading-snug">
-                  {post.excerpt}
-                </p>
-                <a
-                  href={post.link || "#"}
-                  className="flex items-center justify-between border border-black"
-                  style={{ width: "6rem", height: "1.625rem" }}
-                >
-                  <span className="text-[0.875rem] font-medium tracking-[-0.04em] text-black">Read more</span>
-                  <ArrowIcon />
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
+        <NewsSlider posts={posts} />
 
       </div>
 
