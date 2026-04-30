@@ -3,6 +3,7 @@
 import { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { LetsTalkButton } from "./LetsTalkButton";
+import { ContactModal } from "./ContactModal";
 
 const NAV_ITEMS = ["About", "Services", "Projects", "News", "Contact"];
 
@@ -34,7 +35,7 @@ function NavLink({ item }: { item: string }) {
   return (
     <a
       ref={ref}
-      href={`#${item.toLowerCase()}`}
+      href={item === "About" ? "/about" : item === "Projects" ? "/projects" : item === "Services" ? "/services" : item === "News" ? "/news" : item === "Contact" ? "/contact" : `#${item.toLowerCase()}`}
       className="relative text-base font-semibold tracking-[-0.04em] text-black"
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
@@ -51,11 +52,12 @@ function NavLink({ item }: { item: string }) {
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   const navItemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLSpanElement>(null);
+  const logoRef = useRef<HTMLAnchorElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const isDarkRef = useRef(false);
   const isFirstRef = useRef(true);
@@ -125,9 +127,9 @@ export function Header() {
 
       <header className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-4 md:px-8 py-6">
 
-        <span ref={logoRef} className="relative text-base font-semibold tracking-[-0.04em] text-black">
+        <a href="/" ref={logoRef} className="relative text-base font-semibold tracking-[-0.04em] text-black">
           H.Studio
-        </span>
+        </a>
 
         {/* Desktop nav */}
         <nav ref={navRef} className="relative hidden md:flex items-center gap-14">
@@ -138,7 +140,7 @@ export function Header() {
 
         {/* Desktop CTA */}
         <div className="relative hidden md:flex">
-          <LetsTalkButton variant="dark" />
+          <LetsTalkButton variant="dark" onClick={() => setModalOpen(true)} />
         </div>
 
         {/* Mobile hamburger */}
@@ -167,7 +169,7 @@ export function Header() {
             <a
               key={item}
               ref={(el) => { navItemsRef.current[i] = el; }}
-              href={`#${item.toLowerCase()}`}
+              href={item === "About" ? "/about" : item === "Projects" ? "/projects" : item === "Services" ? "/services" : item === "News" ? "/news" : item === "Contact" ? "/contact" : `#${item.toLowerCase()}`}
               className="text-white text-[2.5rem] font-semibold tracking-[-0.04em] leading-none py-5 border-b border-white/10"
               style={{ opacity: 0 }}
               onClick={() => setOpen(false)}
@@ -178,7 +180,7 @@ export function Header() {
         </nav>
 
         <div ref={ctaRef} style={{ opacity: 0 }}>
-          <LetsTalkButton variant="light" onClick={() => setOpen(false)} />
+          <LetsTalkButton variant="light" onClick={() => { setOpen(false); setModalOpen(true); }} />
         </div>
       </div>
 
@@ -189,6 +191,8 @@ export function Header() {
           onClick={() => setOpen(false)}
         />
       )}
+
+      <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </>
   );
 }
