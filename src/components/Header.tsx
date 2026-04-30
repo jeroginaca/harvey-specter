@@ -1,25 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const NAV_ITEMS = ["About", "Services", "Projects", "News", "Contact"];
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <>
-      {/* Logo, nav and hamburger each carry mix-blend-difference so they invert
-          against any background. The CTA button is excluded so it keeps its
-          solid dark fill regardless of what's behind the header. */}
       <header className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-4 md:px-8 py-6">
 
-        <span className="text-base font-semibold tracking-[-0.04em] text-white mix-blend-difference">
+        {/* Gradient blur backdrop — appears on scroll, max blur at top, 0% at bottom */}
+        <div
+          className="absolute inset-0 pointer-events-none backdrop-blur-[1.25rem] transition-opacity duration-500"
+          style={{
+            opacity: scrolled ? 1 : 0,
+            maskImage: "linear-gradient(to bottom, black 40%, transparent)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 40%, transparent)",
+          }}
+        />
+
+        <span className="relative text-base font-semibold tracking-[-0.04em] text-black mix-blend-difference">
           H.Studio
         </span>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-14">
+        <nav className="relative hidden md:flex items-center gap-14">
           {NAV_ITEMS.map((item) => (
             <a
               key={item}
@@ -31,14 +45,14 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Desktop CTA — solid fill, same as hero CTA */}
-        <button className="hidden md:flex items-center gap-2.5 bg-black px-4 py-3 text-sm font-medium tracking-[-0.035rem] text-white rounded-full hover:bg-neutral-800 transition-colors duration-200">
+        {/* Desktop CTA */}
+        <button className="relative hidden md:flex items-center gap-2.5 bg-black px-4 py-3 text-sm font-medium tracking-[-0.035rem] text-white rounded-full hover:bg-neutral-800 transition-colors duration-200">
           Let&apos;s talk
         </button>
 
-        {/* Mobile hamburger — blend handles contrast on any bg */}
+        {/* Mobile hamburger */}
         <button
-          className="md:hidden flex items-center justify-center w-6 h-6 mix-blend-difference"
+          className="relative md:hidden flex items-center justify-center w-6 h-6 mix-blend-difference"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
         >
