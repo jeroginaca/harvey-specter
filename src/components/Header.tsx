@@ -49,8 +49,12 @@ function NavLink({ item }: { item: string }) {
 
 function CtaButton({ dark, onClick, children }: { dark?: boolean; onClick?: () => void; children: React.ReactNode }) {
   const ref = useRef<HTMLButtonElement>(null);
-  const shineRef = useRef<HTMLSpanElement>(null);
+  const fillRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
+
+  const hoverBg = dark ? "#ffffff" : "#000000";
+  const hoverText = dark ? "#000000" : "#ffffff";
+  const defaultText = dark ? "#ffffff" : "#000000";
 
   const onMouseMove = (e: React.MouseEvent) => {
     const btn = ref.current;
@@ -62,43 +66,28 @@ function CtaButton({ dark, onClick, children }: { dark?: boolean; onClick?: () =
   };
 
   const onEnter = () => {
-    // Background flip
-    gsap.to(ref.current, {
-      backgroundColor: dark ? "#ffffff" : "#000000",
-      color: dark ? "#000000" : "#ffffff",
-      duration: 0.4,
-      ease: "power2.inOut",
-    });
-    // Shine sweep
+    // Fill rises from bottom to top
     gsap.fromTo(
-      shineRef.current,
-      { x: "-140%" },
-      { x: "140%", duration: 0.55, ease: "power2.inOut" }
+      fillRef.current,
+      { scaleY: 0, transformOrigin: "bottom center" },
+      { scaleY: 1, transformOrigin: "bottom center", duration: 0.45, ease: "power3.out" }
     );
-    // Letter spacing expand
-    gsap.to(textRef.current, {
-      letterSpacing: "0.04em",
-      duration: 0.3,
-      ease: "power2.out",
-    });
+    // Text color switches as fill rises
+    gsap.to(textRef.current, { color: hoverText, duration: 0.3, delay: 0.1 });
   };
 
   const onLeave = () => {
-    // Background reset
-    gsap.to(ref.current, {
-      backgroundColor: dark ? "#000000" : "#ffffff",
-      color: dark ? "#ffffff" : "#000000",
-      duration: 0.35,
-      ease: "power2.inOut",
+    // Fill retreats from top downward
+    gsap.to(fillRef.current, {
+      scaleY: 0,
+      transformOrigin: "top center",
+      duration: 0.4,
+      ease: "power3.in",
     });
+    // Text returns to default
+    gsap.to(textRef.current, { color: defaultText, duration: 0.25 });
     // Magnetic spring back
     gsap.to(ref.current, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.45)" });
-    // Letter spacing reset
-    gsap.to(textRef.current, {
-      letterSpacing: "-0.035rem",
-      duration: 0.25,
-      ease: "power2.in",
-    });
   };
 
   const onClick_ = () => {
@@ -111,7 +100,7 @@ function CtaButton({ dark, onClick, children }: { dark?: boolean; onClick?: () =
   return (
     <button
       ref={ref}
-      className={`relative w-fit overflow-hidden flex items-center gap-2.5 px-4 py-3 text-sm font-medium rounded-full ${
+      className={`relative w-fit overflow-hidden flex items-center gap-2.5 px-4 py-3 text-sm font-medium tracking-[-0.035rem] rounded-full ${
         dark ? "bg-black text-white" : "bg-white text-black"
       }`}
       onMouseMove={onMouseMove}
@@ -119,13 +108,13 @@ function CtaButton({ dark, onClick, children }: { dark?: boolean; onClick?: () =
       onMouseLeave={onLeave}
       onClick={onClick_}
     >
-      {/* Shine overlay */}
+      {/* Bottom-to-top fill */}
       <span
-        ref={shineRef}
-        className="absolute inset-0 -skew-x-[20deg] bg-white/20 pointer-events-none"
-        style={{ transform: "translateX(-140%)" }}
+        ref={fillRef}
+        className="absolute inset-0 pointer-events-none rounded-full"
+        style={{ backgroundColor: hoverBg, transform: "scaleY(0)", transformOrigin: "bottom center" }}
       />
-      <span ref={textRef} className="relative tracking-[-0.035rem]">
+      <span ref={textRef} className="relative" style={{ color: defaultText }}>
         {children}
       </span>
     </button>
