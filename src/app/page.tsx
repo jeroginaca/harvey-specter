@@ -8,8 +8,21 @@ import { PortfolioSection } from "@/components/PortfolioSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { NewsSection } from "@/components/NewsSection";
 import { FooterSection } from "@/components/FooterSection";
+import {
+  getNewsPosts,
+  getPortfolioProjects,
+  getTestimonials,
+  getServices,
+} from "@/sanity/queries";
 
-export default function Home() {
+export default async function Home() {
+  const [posts, projects, testimonials, services] = await Promise.all([
+    getNewsPosts(),
+    getPortfolioProjects(),
+    getTestimonials(),
+    getServices(),
+  ]);
+
   return (
     <>
       <Header />
@@ -18,10 +31,10 @@ export default function Home() {
         <ExperienceSection />
         <AboutSection />
         <ServicesBackground />
-        <ServicesSection />
-        <PortfolioSection />
-        <TestimonialsSection />
-        <NewsSection />
+        <ServicesSection services={services} />
+        <PortfolioSection projects={projects} />
+        <TestimonialsSection testimonials={testimonials} />
+        <NewsSection posts={posts} />
       </main>
       <FooterSection />
     </>
