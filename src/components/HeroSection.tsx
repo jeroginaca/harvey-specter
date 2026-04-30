@@ -45,28 +45,23 @@ export function HeroSection() {
       {/* Introduction
           Mobile: SPACE_BETWEEN (name at top, description at bottom of this container)
           Desktop: centered */}
-      <div className="flex flex-col justify-between md:justify-center items-center z-10">
+      <div className="flex flex-col gap-10 md:gap-0 md:justify-center items-center z-10">
         {/* Name block */}
         <div className="w-full flex flex-col">
           {/* Greeting — centered on mobile, left on desktop */}
-          <div className="flex items-center">
+          <div className="flex items-center justify-center md:justify-start">
             <span className="font-mono text-sm font-normal text-white mix-blend-overlay">
               [ Hello i&apos;m ]
             </span>
           </div>
 
-          {/* H1
-              Mobile: stays within padded container (w-full), wraps naturally,
-                      no negative margin (greeting sits directly above, gap=0)
-              Desktop: breaks out of px-8 padding edge-to-edge (w-screen -mx-8),
-                       no wrap, negative margin overlaps greeting ascender space */}
           <h1
             className={[
               "text-[4rem] min-[430px]:text-[clamp(6rem,14vw,16rem)] font-medium leading-none tracking-[-0.07em] text-white",
               "w-full",
               "whitespace-normal md:whitespace-nowrap",
               "md:-mt-[0.9375rem]",
-              "text-left mix-blend-overlay",
+              "text-center md:text-left mix-blend-overlay",
             ].join(" ")}
           >
             Harvey{"   "}Specter
@@ -74,9 +69,8 @@ export function HeroSection() {
         </div>
 
         {/* Description + CTA
-            Mobile: centered in intro container, in normal flow
-            Desktop: absolutely anchored bottom-right
-                     right=32px (507−475), bottom=152px (−3753−(−3905)) from Figma */}
+            Mobile: flows naturally below name block with gap
+            Desktop: absolutely anchored bottom-right */}
         <div className="w-[18.375rem] flex flex-col gap-[1.0625rem] md:absolute md:bottom-[9.5rem] md:right-8">
           <p className="text-sm font-bold uppercase italic tracking-[-0.035rem] text-[#1f1f1f] leading-[1.1]">
             H.Studio is a{" "}
