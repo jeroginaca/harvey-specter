@@ -39,8 +39,8 @@ export function ExperienceSection() {
           duration: 0.5,
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 80%",
-            end: "top 40%",
+            start: "top 75%",
+            end: "bottom 20%",
             scrub: 0.5,
           },
         }
