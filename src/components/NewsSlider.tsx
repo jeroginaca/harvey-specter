@@ -80,7 +80,7 @@ export function NewsSlider({ posts }: { posts: NewsPost[] }) {
               </p>
               <a
                 href={post.link || "#"}
-                className="flex items-center justify-between border border-black"
+                className="flex items-center gap-2.5"
                 style={{ width: "6rem", height: "1.625rem" }}
               >
                 <span className="text-[0.875rem] font-medium tracking-[-0.04em] text-black">Read more</span>
