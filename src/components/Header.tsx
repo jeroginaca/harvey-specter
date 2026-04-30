@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 
 const NAV_ITEMS = ["About", "Services", "Projects", "News", "Contact"];
@@ -104,46 +104,26 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Let GSAP own the transform — set initial state before first paint
+  useLayoutEffect(() => {
+    gsap.set(overlayRef.current, { yPercent: -100 });
+    gsap.set(navItemsRef.current.filter(Boolean), { opacity: 0, y: 40 });
+    gsap.set(ctaRef.current, { opacity: 0, y: 20 });
+  }, []);
+
   useEffect(() => {
     const overlay = overlayRef.current;
-    const items = navItemsRef.current;
+    const items = navItemsRef.current.filter(Boolean);
     const cta = ctaRef.current;
 
     if (open) {
-      // Slide in overlay
-      gsap.fromTo(
-        overlay,
-        { yPercent: -100, opacity: 1 },
-        { yPercent: 0, duration: 0.5, ease: "expo.out" }
-      );
-      // Stagger nav items up
-      gsap.fromTo(
-        items,
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.5,
-          ease: "power3.out",
-          stagger: 0.07,
-          delay: 0.15,
-        }
-      );
-      // CTA fade in
-      gsap.fromTo(
-        cta,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.4, ease: "power2.out", delay: 0.5 }
-      );
+      gsap.to(overlay, { yPercent: 0, duration: 0.55, ease: "expo.out" });
+      gsap.to(items, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.07, delay: 0.2 });
+      gsap.to(cta, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out", delay: 0.52 });
     } else {
-      // Slide out overlay
-      gsap.to(overlay, {
-        yPercent: -100,
-        duration: 0.4,
-        ease: "expo.in",
-      });
+      gsap.to(overlay, { yPercent: -100, duration: 0.45, ease: "expo.in" });
       gsap.to(items, { opacity: 0, y: 20, duration: 0.2, stagger: 0.04 });
-      gsap.to(cta, { opacity: 0, duration: 0.15 });
+      gsap.to(cta, { opacity: 0, y: 10, duration: 0.15 });
     }
   }, [open]);
 
@@ -194,7 +174,6 @@ export function Header() {
       <div
         ref={overlayRef}
         className={`md:hidden fixed inset-0 z-40 bg-black flex flex-col px-4 pt-[4.5rem] pb-10 ${open ? "pointer-events-auto" : "pointer-events-none"}`}
-        style={{ transform: "translateY(-100%)" }}
       >
         <nav className="flex flex-col flex-1 justify-center gap-1">
           {NAV_ITEMS.map((item, i) => (
