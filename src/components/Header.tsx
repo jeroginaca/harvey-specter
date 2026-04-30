@@ -16,17 +16,18 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-4 md:px-8 py-6">
+      {/* Gradient blur backdrop — separate fixed element so backdrop-filter isn't
+          blocked by mix-blend-difference stacking contexts inside the header */}
+      <div
+        className="fixed top-0 inset-x-0 z-[49] pointer-events-none h-32 backdrop-blur-[20px] transition-opacity duration-500"
+        style={{
+          opacity: scrolled ? 1 : 0,
+          maskImage: "linear-gradient(to bottom, black 30%, transparent)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 30%, transparent)",
+        }}
+      />
 
-        {/* Gradient blur backdrop — appears on scroll, max blur at top, 0% at bottom */}
-        <div
-          className="absolute inset-0 pointer-events-none backdrop-blur-[1.25rem] transition-opacity duration-500"
-          style={{
-            opacity: scrolled ? 1 : 0,
-            maskImage: "linear-gradient(to bottom, black 40%, transparent)",
-            WebkitMaskImage: "linear-gradient(to bottom, black 40%, transparent)",
-          }}
-        />
+      <header className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-4 md:px-8 py-6">
 
         <span className="relative text-base font-semibold tracking-[-0.04em] text-black mix-blend-difference">
           H.Studio
