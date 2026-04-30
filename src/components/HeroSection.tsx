@@ -66,7 +66,7 @@ export function HeroSection() {
               "w-full",
               "whitespace-normal md:whitespace-nowrap",
               "md:-mt-[0.9375rem]",
-              "text-center mix-blend-overlay",
+              "text-left mix-blend-overlay",
             ].join(" ")}
           >
             Harvey{"   "}Specter
