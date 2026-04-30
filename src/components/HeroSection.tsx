@@ -49,7 +49,7 @@ export function HeroSection() {
         {/* Name block */}
         <div className="w-full flex flex-col">
           {/* Greeting — centered on mobile, left on desktop */}
-          <div className="flex items-center justify-center md:justify-start px-[1.125rem]">
+          <div className="flex items-center">
             <span className="font-mono text-sm font-normal text-white mix-blend-overlay">
               [ Hello i&apos;m ]
             </span>
