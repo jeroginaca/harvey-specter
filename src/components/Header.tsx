@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { LetsTalkButton } from "./LetsTalkButton";
 
@@ -35,14 +35,14 @@ function NavLink({ item }: { item: string }) {
     <a
       ref={ref}
       href={`#${item.toLowerCase()}`}
-      className="relative text-base font-semibold tracking-[-0.04em] text-black mix-blend-difference"
+      className="relative text-base font-semibold tracking-[-0.04em] text-black"
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >
       {item}
       <span
         ref={underlineRef}
-        className="absolute left-0 -bottom-0.5 w-full h-px bg-black origin-left scale-x-0"
+        className="absolute left-0 -bottom-0.5 w-full h-px bg-current origin-left scale-x-0"
       />
     </a>
   );
@@ -55,12 +55,40 @@ export function Header() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const navItemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLSpanElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const isDarkRef = useRef(false);
+  const isFirstRef = useRef(true);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Desktop-only: smooth color switch when over dark sections
+  const updateTheme = useCallback(() => {
+    const darkEls = document.querySelectorAll("[data-header-theme='dark']");
+    let dark = false;
+    darkEls.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < 80 && r.bottom > 0) dark = true;
+    });
+    if (dark !== isDarkRef.current || isFirstRef.current) {
+      isDarkRef.current = dark;
+      const color = dark ? "#ffffff" : "#000000";
+      const duration = isFirstRef.current ? 0 : 0.35;
+      isFirstRef.current = false;
+      gsap.to(logoRef.current, { color, duration, ease: "power2.inOut", overwrite: "auto" });
+      gsap.to(navRef.current?.querySelectorAll("a") ?? [], { color, duration, ease: "power2.inOut", overwrite: "auto" });
+    }
+  }, []);
+
+  useEffect(() => {
+    updateTheme();
+    window.addEventListener("scroll", updateTheme, { passive: true });
+    return () => window.removeEventListener("scroll", updateTheme);
+  }, [updateTheme]);
 
   // Set initial opacity state for nav items and CTA
   useLayoutEffect(() => {
@@ -95,12 +123,12 @@ export function Header() {
 
       <header className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-4 md:px-8 py-6">
 
-        <span className="relative text-base font-semibold tracking-[-0.04em] text-black mix-blend-difference">
+        <span ref={logoRef} className="relative text-base font-semibold tracking-[-0.04em] text-black">
           H.Studio
         </span>
 
         {/* Desktop nav */}
-        <nav className="relative hidden md:flex items-center gap-14">
+        <nav ref={navRef} className="relative hidden md:flex items-center gap-14">
           {NAV_ITEMS.map((item) => (
             <NavLink key={item} item={item} />
           ))}

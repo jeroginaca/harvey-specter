@@ -3,7 +3,7 @@ import type { Service } from "@/sanity/queries";
 
 export function ServicesSection({ services }: { services: Service[] }) {
   return (
-    <section className="w-full bg-black py-12 px-4 md:py-20 md:px-8">
+    <section data-header-theme="dark" className="w-full bg-black py-12 px-4 md:py-20 md:px-8">
       <div className="flex flex-col gap-12">
 
         <span className="font-mono text-sm font-normal uppercase text-white">

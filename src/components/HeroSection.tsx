@@ -51,6 +51,7 @@ export function HeroSection() {
   return (
     <section
       ref={sectionRef}
+      data-header-theme="dark"
       className={[
         "relative isolate w-full flex flex-col overflow-hidden",
         "min-h-[100svh] md:h-[52.9375rem]",
