@@ -131,7 +131,7 @@ export function Header() {
       {/* Mobile overlay — GSAP controlled */}
       <div
         ref={overlayRef}
-        className={`md:hidden fixed inset-0 z-40 bg-black flex flex-col px-4 pt-[4.5rem] pb-10 -translate-y-full ${open ? "pointer-events-auto" : "pointer-events-none"}`}
+        className={`md:hidden fixed top-0 left-0 w-full h-[100svh] z-40 bg-black flex flex-col px-4 pt-[4.5rem] pb-10 -translate-y-full ${open ? "pointer-events-auto" : "pointer-events-none"}`}
       >
         <nav className="flex flex-col flex-1 justify-center gap-1">
           {NAV_ITEMS.map((item, i) => (
