@@ -62,24 +62,21 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Let GSAP own the transform — set initial state before first paint
+  // Set initial opacity state for nav items and CTA
   useLayoutEffect(() => {
-    gsap.set(overlayRef.current, { yPercent: -100 });
     gsap.set(navItemsRef.current.filter(Boolean), { opacity: 0, y: 40 });
     gsap.set(ctaRef.current, { opacity: 0, y: 20 });
   }, []);
 
+  // GSAP handles item stagger; CSS transition handles the overlay slide
   useEffect(() => {
-    const overlay = overlayRef.current;
     const items = navItemsRef.current.filter(Boolean);
     const cta = ctaRef.current;
 
     if (open) {
-      gsap.to(overlay, { yPercent: 0, duration: 0.55, ease: "expo.out" });
-      gsap.to(items, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.07, delay: 0.2 });
-      gsap.to(cta, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out", delay: 0.52 });
+      gsap.to(items, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.07, delay: 0.25 });
+      gsap.to(cta, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out", delay: 0.55 });
     } else {
-      gsap.to(overlay, { yPercent: -100, duration: 0.45, ease: "expo.in" });
       gsap.to(items, { opacity: 0, y: 20, duration: 0.2, stagger: 0.04 });
       gsap.to(cta, { opacity: 0, y: 10, duration: 0.15 });
     }
@@ -131,7 +128,9 @@ export function Header() {
       {/* Mobile overlay — GSAP controlled */}
       <div
         ref={overlayRef}
-        className={`md:hidden fixed top-0 left-0 w-full h-[100svh] z-40 bg-black flex flex-col px-4 pt-[4.5rem] pb-10 -translate-y-full ${open ? "pointer-events-auto" : "pointer-events-none"}`}
+        className={`md:hidden fixed top-0 left-0 w-full h-[100svh] z-40 bg-black flex flex-col px-4 pt-[4.5rem] pb-10 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            open ? "translate-y-0 pointer-events-auto" : "-translate-y-full pointer-events-none"
+          }`}
       >
         <nav className="flex flex-col flex-1 justify-center gap-1">
           {NAV_ITEMS.map((item, i) => (
