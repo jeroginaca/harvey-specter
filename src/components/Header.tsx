@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
+import { LetsTalkButton } from "./LetsTalkButton";
 
 const NAV_ITEMS = ["About", "Services", "Projects", "News", "Contact"];
 
@@ -47,86 +48,13 @@ function NavLink({ item }: { item: string }) {
   );
 }
 
-function CtaButton({ dark, onClick, children }: { dark?: boolean; onClick?: () => void; children: React.ReactNode }) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const fillRef = useRef<HTMLSpanElement>(null);
-  const textRef = useRef<HTMLSpanElement>(null);
-
-  const hoverBg = dark ? "#ffffff" : "#000000";
-  const hoverText = dark ? "#000000" : "#ffffff";
-  const defaultText = dark ? "#ffffff" : "#000000";
-
-  const onMouseMove = (e: React.MouseEvent) => {
-    const btn = ref.current;
-    if (!btn) return;
-    const rect = btn.getBoundingClientRect();
-    const x = (e.clientX - rect.left - rect.width / 2) * 0.28;
-    const y = (e.clientY - rect.top - rect.height / 2) * 0.28;
-    gsap.to(btn, { x, y, duration: 0.35, ease: "power2.out" });
-  };
-
-  const onEnter = () => {
-    // Fill rises from bottom to top
-    gsap.fromTo(
-      fillRef.current,
-      { scaleY: 0, transformOrigin: "bottom center" },
-      { scaleY: 1, transformOrigin: "bottom center", duration: 0.45, ease: "power3.out" }
-    );
-    // Text color switches as fill rises
-    gsap.to(textRef.current, { color: hoverText, duration: 0.3, delay: 0.1 });
-  };
-
-  const onLeave = () => {
-    // Fill retreats from top downward
-    gsap.to(fillRef.current, {
-      scaleY: 0,
-      transformOrigin: "top center",
-      duration: 0.4,
-      ease: "power3.in",
-    });
-    // Text returns to default
-    gsap.to(textRef.current, { color: defaultText, duration: 0.25 });
-    // Magnetic spring back
-    gsap.to(ref.current, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.45)" });
-  };
-
-  const onClick_ = () => {
-    gsap.timeline()
-      .to(ref.current, { scale: 0.9, duration: 0.1, ease: "power3.in" })
-      .to(ref.current, { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.4)" });
-    onClick?.();
-  };
-
-  return (
-    <button
-      ref={ref}
-      className={`relative w-fit overflow-hidden flex items-center gap-2.5 px-4 py-3 text-sm font-medium tracking-[-0.035rem] rounded-full ${
-        dark ? "bg-black text-white" : "bg-white text-black"
-      }`}
-      onMouseMove={onMouseMove}
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
-      onClick={onClick_}
-    >
-      {/* Bottom-to-top fill */}
-      <span
-        ref={fillRef}
-        className="absolute inset-0 pointer-events-none rounded-full"
-        style={{ backgroundColor: hoverBg, transform: "scaleY(0)", transformOrigin: "bottom center" }}
-      />
-      <span ref={textRef} className="relative" style={{ color: defaultText }}>
-        {children}
-      </span>
-    </button>
-  );
-}
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   const navItemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
-  const ctaRef = useRef<HTMLButtonElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -183,7 +111,7 @@ export function Header() {
 
         {/* Desktop CTA */}
         <div className="relative hidden md:flex">
-          <CtaButton dark>Let&apos;s talk</CtaButton>
+          <LetsTalkButton variant="dark" />
         </div>
 
         {/* Mobile hamburger */}
@@ -220,14 +148,9 @@ export function Header() {
           ))}
         </nav>
 
-        <button
-          ref={ctaRef}
-          className="w-fit flex items-center gap-2.5 bg-white text-black px-4 py-3 text-sm font-medium tracking-[-0.035rem] rounded-full"
-          style={{ opacity: 0 }}
-          onClick={() => setOpen(false)}
-        >
-          Let&apos;s talk
-        </button>
+        <div ref={ctaRef} style={{ opacity: 0 }}>
+          <LetsTalkButton variant="light" onClick={() => setOpen(false)} />
+        </div>
       </div>
 
       {/* Clickable backdrop to close */}

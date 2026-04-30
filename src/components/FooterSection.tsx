@@ -1,3 +1,5 @@
+import { LetsTalkButton } from "./LetsTalkButton";
+
 export function FooterSection() {
   return (
     <footer className="w-full bg-black overflow-hidden">
@@ -14,9 +16,7 @@ export function FooterSection() {
               <strong className="font-bold not-italic">Project</strong>
               <em className="font-light italic"> in mind?</em>
             </p>
-            <button className="w-fit rounded-full border border-white bg-black px-4 py-3 text-[0.875rem] font-medium tracking-[-0.04em] text-white">
-              Let&apos;s talk
-            </button>
+            <LetsTalkButton variant="outlined" />
           </div>
           {["Facebook", "Instagram", "X.com", "Linkedin"].map((link) => (
             <a
@@ -42,9 +42,7 @@ export function FooterSection() {
               <strong className="font-bold not-italic">Project</strong>
               <em className="font-light italic"> in mind?</em>
             </p>
-            <button className="w-fit rounded-full border border-white bg-black px-4 py-3 text-[0.875rem] font-medium tracking-[-0.04em] text-white">
-              Let&apos;s talk
-            </button>
+            <LetsTalkButton variant="outlined" />
           </div>
 
           {/* Center: Facebook + Instagram — centered */}

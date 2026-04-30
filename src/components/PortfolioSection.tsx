@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { PortfolioProject } from "@/sanity/queries";
+import { LetsTalkButton } from "./LetsTalkButton";
 
 function CTL() {
   return <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M14 0L0 0L0 14" stroke="black" strokeWidth="1"/></svg>;
@@ -83,9 +84,7 @@ function Callout() {
           Discover how my creativity transforms ideas into impactful digital
           experiences — schedule a call with me to get started.
         </p>
-        <button className="w-fit flex items-center gap-2.5 bg-black px-4 py-3 text-sm font-medium tracking-[-0.035rem] text-white rounded-full hover:bg-neutral-800 transition-colors duration-200">
-          Let&apos;s talk
-        </button>
+        <LetsTalkButton variant="dark" />
       </div>
       <div className="flex flex-col justify-between w-6 shrink-0">
         <CTR />

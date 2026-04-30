@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { LetsTalkButton } from "./LetsTalkButton";
 
 export function HeroSection() {
   return (
@@ -81,9 +82,7 @@ export function HeroSection() {
             {" "}desing and art group specializing in branding, web design and
             engineering.
           </p>
-          <button className="w-fit flex items-center gap-2.5 bg-black px-4 py-3 text-sm font-medium tracking-[-0.035rem] text-white rounded-full hover:bg-neutral-800 transition-colors duration-200">
-            Let&apos;s talk
-          </button>
+          <LetsTalkButton variant="dark" />
         </div>
       </div>
     </section>
