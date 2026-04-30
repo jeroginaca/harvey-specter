@@ -101,6 +101,7 @@ export function AboutSection() {
                 src="/about-photo.jpg"
                 alt="About Harvey Specter"
                 fill
+                sizes="(min-width: 768px) 27.25rem, 100vw"
                 className="object-cover object-center"
               />
             </div>

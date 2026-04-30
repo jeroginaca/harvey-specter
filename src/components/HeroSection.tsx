@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Header } from "./Header";
 
 export function HeroSection() {
   return (
@@ -24,6 +23,7 @@ export function HeroSection() {
           src="/hero-bg.jpg"
           alt=""
           fill
+          sizes="100vw"
           className="object-cover object-center"
           priority
         />
@@ -39,8 +39,8 @@ export function HeroSection() {
         }}
       />
 
-      {/* Header — client component handles hamburger toggle */}
-      <Header />
+      {/* Spacer matching fixed header height so the intro stays in the same vertical position */}
+      <div className="h-[4.5rem] shrink-0" aria-hidden="true" />
 
       {/* Introduction
           Mobile: SPACE_BETWEEN (name at top, description at bottom of this container)

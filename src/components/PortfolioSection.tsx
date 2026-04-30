@@ -64,6 +64,7 @@ function ProjectCard({ project }: { project: (typeof PROJECTS)[number] }) {
           src={project.img}
           alt={project.title}
           fill
+          sizes="(min-width: 768px) 50vw, 100vw"
           className="object-cover object-center"
         />
         {/* Frosted-glass tag pills */}

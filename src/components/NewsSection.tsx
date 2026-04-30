@@ -55,7 +55,7 @@ export function NewsSection() {
                   style={{ width: "24rem" }}
                 >
                   <div className="relative w-full" style={{ aspectRatio: "353/469" }}>
-                    <Image src={img} alt="" fill className="object-cover" />
+                    <Image src={img} alt="" fill sizes="24rem" className="object-cover" />
                   </div>
                   <p className="text-[0.875rem] font-normal tracking-[-0.04em] text-[#1f1f1f] leading-snug">
                     {LOREM}
@@ -88,7 +88,7 @@ export function NewsSection() {
             {["/news/news-1.jpg", "/news/news-2.jpg", "/news/news-3.jpg"].map((img, i) => (
               <div key={i} className="shrink-0 flex flex-col gap-4" style={{ width: "18.75rem" }}>
                 <div className="relative w-full" style={{ aspectRatio: "300/398" }}>
-                  <Image src={img} alt="" fill className="object-cover" />
+                  <Image src={img} alt="" fill sizes="18.75rem" className="object-cover" />
                 </div>
                 <p className="text-[0.875rem] font-normal tracking-[-0.04em] text-[#1f1f1f] leading-snug">
                   {LOREM}

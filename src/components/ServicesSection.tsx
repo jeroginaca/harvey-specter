@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const SERVICES = [
   {
     num: "[ 1 ]",
@@ -83,13 +85,15 @@ export function ServicesSection() {
                   </p>
 
                   {/* Service image — 151×151 on both breakpoints */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={svc.img}
-                    alt={svc.name}
-                    className="shrink-0 object-cover"
-                    style={{ width: "9.4375rem", height: "9.4375rem" }}
-                  />
+                  <div className="relative shrink-0 overflow-hidden" style={{ width: "9.4375rem", height: "9.4375rem" }}>
+                    <Image
+                      src={svc.img}
+                      alt={svc.name}
+                      fill
+                      sizes="9.4375rem"
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
 
               </div>

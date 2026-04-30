@@ -2,6 +2,8 @@
 // Desktop: fixed 987px height, heading centered, 4 cards absolutely positioned with rotation
 // Mobile:  vertical section, heading + horizontal overflow scroll strip
 
+import Image from "next/image";
+
 const TESTIMONIALS = [
   {
     id: 1,
@@ -78,8 +80,7 @@ function TestimonialCard({
       style={style}
     >
       {/* Brand logo — counter-rotated on desktop so it appears upright inside the tilted card */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={t.logo}
         alt=""
         width={t.logoW}
