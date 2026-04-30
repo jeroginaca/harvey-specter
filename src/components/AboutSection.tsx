@@ -41,6 +41,7 @@ export function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const imageWrapRef = useRef<HTMLDivElement>(null);
+  const textBlockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -51,15 +52,33 @@ export function AboutSection() {
         { scaleX: 1 },
         {
           scaleX: 0,
-          ease: "none",
+          ease: "power2.inOut",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 80%",
-            end: "top -10%",
-            scrub: 1,
+            start: "top 75%",
+            end: "top 20%",
+            scrub: 2,
           },
         }
       );
+
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 1024px)", () => {
+        gsap.fromTo(
+          textBlockRef.current,
+          { x: 0 },
+          {
+            x: -120,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 80%",
+              end: "bottom top",
+              scrub: 2,
+            },
+          }
+        );
+      });
     });
 
     return () => ctx.revert();
@@ -83,7 +102,7 @@ export function AboutSection() {
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:gap-8">
 
           {/* Bracketed text block */}
-          <div className="flex items-stretch gap-3 md:w-[29.0625rem]">
+          <div ref={textBlockRef} className="flex items-stretch gap-3 md:w-[29.0625rem]">
             <div className="flex flex-col justify-between w-6 shrink-0 py-px">
               <CornerTL />
               <CornerBL />
@@ -119,7 +138,7 @@ export function AboutSection() {
               {/* Black curtain — shrinks left-to-right on scroll */}
               <div
                 ref={curtainRef}
-                className="absolute inset-0 bg-black origin-left"
+                className="absolute inset-0 bg-black origin-right"
               />
             </div>
           </div>
