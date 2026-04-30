@@ -38,6 +38,7 @@ const ABOUT_TEXT =
   "Placeholder paragraph one. This is where you introduce yourself — your background, your passion for your craft, and what drives you creatively. Two to three sentences work best here. Placeholder paragraph two. Here you can describe your technical approach, how you collaborate with clients, or what sets your work apart from others in your field.";
 
 export function AboutSection() {
+  const sectionRef = useRef<HTMLElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const imageWrapRef = useRef<HTMLDivElement>(null);
 
@@ -52,9 +53,9 @@ export function AboutSection() {
           scaleX: 0,
           ease: "none",
           scrollTrigger: {
-            trigger: imageWrapRef.current,
-            start: "top 100%",
-            end: "bottom 60%",
+            trigger: sectionRef.current,
+            start: "top 80%",
+            end: "top -10%",
             scrub: 1,
           },
         }
@@ -65,7 +66,7 @@ export function AboutSection() {
   }, []);
 
   return (
-    <section className="w-full bg-white py-12 px-4 md:py-20 md:px-8">
+    <section ref={sectionRef} className="w-full bg-white py-12 px-4 md:py-20 md:px-8">
       <div className="flex flex-col gap-5 md:flex-row md:justify-between md:items-start">
 
         {/* ── Left column ─────────────────────────────────────── */}
