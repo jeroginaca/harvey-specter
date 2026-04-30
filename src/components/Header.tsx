@@ -59,17 +59,17 @@ export function Header() {
         >
           <span className="relative block w-[1.125rem] h-3">
             <span
-              className={`absolute left-0 w-full h-px rounded-full bg-white transition-all duration-300 ease-in-out ${
+              className={`absolute left-0 w-full h-px rounded-full bg-black transition-all duration-300 ease-in-out ${
                 open ? "top-[0.34375rem] rotate-45" : "top-0"
               }`}
             />
             <span
-              className={`absolute left-0 top-[0.34375rem] w-full h-px rounded-full bg-white transition-all duration-300 ease-in-out ${
+              className={`absolute left-0 top-[0.34375rem] w-full h-px rounded-full bg-black transition-all duration-300 ease-in-out ${
                 open ? "opacity-0" : "opacity-100"
               }`}
             />
             <span
-              className={`absolute left-0 w-full h-px rounded-full bg-white transition-all duration-300 ease-in-out ${
+              className={`absolute left-0 w-full h-px rounded-full bg-black transition-all duration-300 ease-in-out ${
                 open ? "top-[0.34375rem] -rotate-45" : "top-[0.6875rem]"
               }`}
             />
@@ -102,7 +102,7 @@ export function Header() {
         </nav>
 
         <button
-          className="w-fit flex items-center gap-2.5 bg-white text-black px-4 py-3 text-sm font-medium tracking-[-0.035rem] rounded-full hover:bg-neutral-200 transition-colors duration-200"
+          className="w-fit flex items-center gap-2.5 bg-black text-black px-4 py-3 text-sm font-medium tracking-[-0.035rem] rounded-full hover:bg-neutral-200 transition-colors duration-200"
           onClick={() => setOpen(false)}
         >
           Let&apos;s talk
